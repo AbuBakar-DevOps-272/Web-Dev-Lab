@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Advanced Product Browser</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>Product Browser</h1>
+    <p>Displaying live data from Fake Store API</p>
+  </header>
+  <section class="controls">
+    <input id="searchBox" type="text" placeholder="Search products…">
+    <select id="categoryFilter"></select>
+    <select id="sortPrice">
+      <option value="none">Sort: None</option>
+      <option value="asc">Price: Low → High</option>
+      <option value="desc">Price: High → Low</option>
+    </select>
+  </section>
+  <main id="productGrid" class="grid"></main>
+  <script src="app.js" type="module"></script>
+</body>
+</html>
