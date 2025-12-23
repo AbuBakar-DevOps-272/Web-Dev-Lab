@@ -1,0 +1,39 @@
+<!-- — Lab 12: Web Security Basics — Input Validation & XSS Prevention
+- Objectives:
+  - Apply client-side and server-simulated validation and sanitize inputs to prevent XSS; learn secure form handling techniques. 
+- Tools/Tech:
+  - VS Code, simple Node/Express sandbox (optional) or mocked server responses, DOMPurify (or similar)
+- Tasks/Steps:
+  1. Demonstrate an XSS payload on an insecure page (in controlled lab environment).
+  2. Implement input sanitization (use libraries like DOMPurify) and show how it prevents injection.
+  3. Add CSRF explanation and a token mockup (demonstrate form token usage).
+- Deliverables:
+  - Lab report showing vulnerable example and the fixed version; source code. -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>XSS Demo - Insecure</title>
+</head>
+<body>
+    <h2>Insecure Comment Box</h2>
+
+    <form id="commentForm">
+        <input type="text" id="commentInput" placeholder="Type something..." />
+        <button type="submit">Post</button>
+    </form>
+
+    <div id="comments"></div>
+
+    <script>
+        document.getElementById('commentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const input = document.getElementById('commentInput').value;
+
+            // ❌ VULNERABLE: Directly injecting user input
+            document.getElementById('comments').innerHTML += "<p>" + input + "</p>";
+        });
+       alert('XSS Attack');
+
+    </script>
+</body>
+</html>
