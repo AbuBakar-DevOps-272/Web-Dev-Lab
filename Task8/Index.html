@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lab 8 - JavaScript Basics Calculator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="container">
+    <h1>Simple Calculator</h1>
+    
+    <div class="calculator">
+      <input type="number" id="num1" placeholder="Enter first number">
+      <input type="number" id="num2" placeholder="Enter second number">
+
+      <div class="buttons">
+        <button class="operator-btn" onclick="handleCalculate('add')">+</button>
+        <button class="operator-btn" onclick="handleCalculate('subtract')">−</button>
+        <button class="operator-btn" onclick="handleCalculate('multiply')">×</button>
+        <button class="operator-btn" onclick="handleCalculate('divide')">÷</button>
+        <button class="clear-btn" onclick="clearCalculator()">Clear</button>
+      </div>
+
+      <div id="result">Result: <span>0</span></div>
+      <div id="history">Last: None</div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
