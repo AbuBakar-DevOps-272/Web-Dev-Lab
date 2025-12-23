@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CASIO Scientific Calculator</title>
+  <style>
+    :root{
+      --calc-bg: #2a2a2a;
+      --panel-bg: #f0f0f0;
+      --btn-bg: #3a3a3a;
+      --num-bg: #404040;
+      --op-bg: #c41e3a;
+      --sci-bg: #2f5f7f;
+      --eq-bg: #2d6a4f;
+      --clear-bg: #d46b3a;
+      --mem-bg: #5a7a9a;
+      --border: #444;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Arial', sans-serif;
+      background: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .calculator {
+      background-color: var(--calc-bg);
+      border-radius: 25px;
+      padding: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.9);
+      width: 100%;
+      max-width: 480px;
+      border: 3px solid #1a1a1a;
+    }
+    .header {
+      text-align: center;
+      color: #999;
+      font-size: 14px;
+      font-weight: bold;
+      margin-bottom: 5px;
+      letter-spacing: 3px;
+    }
+    .model {
+      text-align: center;
+      color: #c41e3a;
+      font-size: 10px;
+      margin-bottom: 15px;
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
+    .display-section {
+      background-color: #f0f0f0;
+      border-radius: 12px;
+      padding: 12px;
+      margin-bottom: 20px;
+      border: 2px solid #d0d0d0;
+      box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .display-history {
+      background-color: #f0f0f0;
+      min-height: 100px;
+      margin-bottom: 10px;
+      padding: 8px;
+      border-radius: 6px;
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      color: #000;
+      overflow-y: auto;
+      border: 1px solid #e0e0e0;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 4px;
+      align-content: start;
+    }
+    .history-cell {
+      background-color: #e8e8e8;
+      padding: 6px 4px;
+      text-align: right;
+      border: 1px solid #d0d0d0;
+      font-size: 10px;
+      min-height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+    }
+    .history-label {
+      background-color: #c0c0c0;
+      padding: 6px 4px;
+      text-align: center;
+      border: 1px solid #a0a0a0;
+      font-size: 9px;
+      font-weight: bold;
+      color: #333;
+    }
+    .display-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      padding: 8px;
+      background-color: #fff;
+      border-radius: 4px;
+      border: 1px solid #e0e0e0;
+      min-height: 28px;
+    }
+    .input-display {
+      color: #666;
+      font-size: 13px;
+      font-family: 'Courier New', monospace;
+      flex: 1;
+      text-align: right;
+      word-wrap: break-word;
+      max-width: 180px;
+    }
+    .result-display {
+      color: #000;
+      font-size: 18px;
+      font-weight: bold;
+      font-family: 'Courier New', monospace;
+      text-align: right;
+      padding: 8px 12px;
+      background-color: #fff;
+      border-radius: 4px;
+      border: 1px solid #e0e0e0;
+      min-height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+    }
+    .mode-info {
+      display: flex;
+      justify-content: space-between;
+      color: #666;
+      font-size: 10px;
+      padding: 6px 8px;
+      background-color: #f8f8f8;
+      border-radius: 4px;
+      margin-top: 8px;
+    }
+    .buttons-container {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      grid-template-rows: repeat(8, 56px); /* 8 rows to match layout */
+      gap: 8px;
+    }
+    button {
+      padding: 10px 8px;
+      font-size: 13px;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      background-color: var(--btn-bg);
+      color: #fff;
+      transition: transform 0.08s, background-color 0.08s;
+      font-weight: 600;
+      align-self: stretch;
+      justify-self: stretch;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .number {
+      background-color: var(--num-bg);
+      border-color: #555;
+    }
+    .number:hover {
+      background-color: #505050;
+    }
+    .operator {
+      background-color: var(--op-bg);
+      border-color: #a01628;
+      font-weight: 700;
+    }
+    .operator:hover {
+      background-color: #d42847;
+    }
+    .operator:active {
+      background-color: #a01628;
+    }
+    .scientific {
+      background-color: var(--sci-bg);
+      border-color: #2a4f6f;
+      font-size: 11px;
+    }
+    .scientific:hover {
+      background-color: #4a6f8f;
+    }
+    .equals {
+      background-color: var(--eq-bg);
+      border-color: #1d5a3f;
+      font-weight: 700;
+      color: #fff;
+    }
+    .equals:hover {
+      background-color: #3d7a5f;
+    }
+    .equals:active {
+      background-color: #1d5a3f;
+    }
+    .clear {
+      background-color: var(--clear-bg);
+      border-color: #b45b2a;
+      font-weight: 700;
+    }
+    .clear:hover {
+      background-color: #e47b4a;
+    }
+    .memory {
+      background-color: var(--mem-bg);
+      border-color: #4a6a8a;
+      font-size: 11px;
+    }
+    .memory:hover {
+      background-color: #6a8aaa;
+    }
+    .span-2 {
+      grid-column: span 2;
+    }
+    .shift {
+      background-color: #999;
+      border-color: #777;
+      color: #000;
+      font-size: 11px;
+      font-weight: bold;
+    }
+    .shift:hover {
+      background-color: #aaa;
+    }
+    @media (max-width: 480px) {
+      .calculator {
+        max-width: 100%;
+        padding: 15px;
+      }
+      button {
+        font-size: 12px;
+        padding: 10px 6px;
+        min-height: 44px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <div class="header">CASIO</div>
+    <div class="model">fx-991EX</div>
+    
+    <div class="display-section">
+      <div class="display-history" id="historyGrid"></div>
+      
+      <div class="display-line">
+        <div class="input-display" id="display">0</div>
+      </div>
+      
+      <div class="result-display" id="result">0</div>
+      
+      <div class="mode-info">
+        <span id="modeInfo">DEG</span>
+        <span id="memInfo"></span>
+      </div>
+    </div>
+
+    <div class="buttons-container">
+      <!-- Row 1 -->
+      <button class="memory"     style="grid-column:1;grid-row:1" onclick="memoryClear()">MC</button>
+      <button class="scientific" style="grid-column:2;grid-row:1" onclick="appendFunction('sin')">sin</button>
+      <button class="scientific" style="grid-column:3;grid-row:1" onclick="appendFunction('cos')">cos</button>
+      <button class="scientific" style="grid-column:4;grid-row:1" onclick="appendFunction('tan')">tan</button>
+      <button class="scientific" style="grid-column:5;grid-row:1" onclick="appendFunction('ln')">ln</button>
+
+      <!-- Row 2 -->
+      <button class="memory"     style="grid-column:1;grid-row:2" onclick="memoryRecall()">MR</button>
+      <button class="scientific" style="grid-column:2;grid-row:2" onclick="appendFunction('sqrt')">√</button>
+      <button class="scientific" style="grid-column:3;grid-row:2" onclick="appendFunction('pow')">x^y</button>
+      <button class="scientific" style="grid-column:4;grid-row:2" onclick="appendFunction('fact')">n!</button>
+      <button class="scientific" style="grid-column:5;grid-row:2" onclick="appendFunction('log')">log</button>
+
+      <!-- Row 3 -->
+      <button class="memory"     style="grid-column:1;grid-row:3" onclick="memoryAdd()">M+</button>
+      <button class="scientific" style="grid-column:2;grid-row:3" onclick="constant('pi')">π</button>
+      <button class="scientific" style="grid-column:3;grid-row:3" onclick="constant('e')">e</button>
+      <button class="number"     style="grid-column:4;grid-row:3" onclick="number('(')">(</button>
+      <button class="number"     style="grid-column:5;grid-row:3" onclick="number(')')">)</button>
+
+      <!-- Row 4 -->
+      <button class="memory"     style="grid-column:1;grid-row:4" onclick="memorySubtract()">M−</button>
+      <button class="clear"      style="grid-column:2;grid-row:4" onclick="clearDisplay()">AC</button>
+      <button                style="grid-column:3;grid-row:4" onclick="backspace()">DEL</button>
+      <button class="operator"   style="grid-column:4;grid-row:4" onclick="operator('/')">÷</button>
+      <button class="equals tall" style="grid-column:5;grid-row:4/9" onclick="calculate()">=</button>
+
+      <!-- Row 5 -->
+      <button class="memory"     style="grid-column:1;grid-row:5" onclick="memoryStore()">MS</button>
+      <button class="number"     style="grid-column:2;grid-row:5" onclick="number('7')">7</button>
+      <button class="number"     style="grid-column:3;grid-row:5" onclick="number('8')">8</button>
+      <button class="number"     style="grid-column:4;grid-row:5" onclick="number('9')">9</button>
+      <button class="operator"   style="grid-column:5;grid-row:5; visibility:hidden"> <!-- placeholder kept visually empty, equals occupies col5 --> </button>
+
+      <!-- Row 6 -->
+      <button class="number"     style="grid-column:1;grid-row:6" onclick="number('4')">4</button>
+      <button class="number"     style="grid-column:2;grid-row:6" onclick="number('5')">5</button>
+      <button class="number"     style="grid-column:3;grid-row:6" onclick="number('6')">6</button>
+      <button class="operator"   style="grid-column:4;grid-row:6" onclick="operator('-')">−</button>
+      <button class="operator"   style="grid-column:5;grid-row:6; visibility:hidden"></button>
+
+      <!-- Row 7 -->
+      <button class="number"     style="grid-column:1;grid-row:7" onclick="number('1')">1</button>
+      <button class="number"     style="grid-column:2;grid-row:7" onclick="number('2')">2</button>
+      <button class="number"     style="grid-column:3;grid-row:7" onclick="number('3')">3</button>
+      <button class="operator"   style="grid-column:4;grid-row:7" onclick="operator('+')">+</button>
+      <button class="shift"      style="grid-column:5;grid-row:7; visibility:hidden"></button>
+
+      <!-- Row 8 -->
+      <button class="number"     style="grid-column:1/3;grid-row:8" onclick="number('0')">0</button>
+      <button class="number"     style="grid-column:3;grid-row:8" onclick="decimal()">.</button>
+      <button class="operator"   style="grid-column:4;grid-row:8" onclick="operator('%')">%</button>
+      <button style="grid-column:5;grid-row:8; visibility:hidden"></button>
+    </div>
+  </div>
+
+  <script>
+    let display = document.getElementById('display');
+    let resultDiv = document.getElementById('result');
+    let historyGrid = document.getElementById('historyGrid');
+    let modeInfo = document.getElementById('modeInfo');
+    let memInfo = document.getElementById('memInfo');
+
+    let expression = '';
+    let memory = 0;
+    let mode = 'deg';
+    let calculationHistory = [];
+
+    function updateDisplay() {
+      display.textContent = expression || '0';
+    }
+
+    function updateMemInfo() {
+      memInfo.textContent = memory !== 0 ? `M: ${memory.toFixed(2)}` : '';
+    }
+
+    function updateHistoryGrid() {
+      if (calculationHistory.length === 0) {
+        historyGrid.innerHTML = '';
+        return;
+      }
+      let html = '<div class="history-label" style="grid-column: 1/3;">式</div>';
+      html += '<div class="history-label" style="grid-column: 3/5;">Ans</div>';
+      
+      calculationHistory.slice(0, 8).forEach(item => {
+        html += `<div class="history-cell" style="grid-column: 1/3;">${item.expr}</div>`;
+        html += `<div class="history-cell" style="grid-column: 3/5;">${item.result}</div>`;
+      });
+      
+      historyGrid.innerHTML = html;
+    }
+
+    function number(value) {
+      if (expression === '0') expression = value;
+      else expression += value;
+      updateDisplay();
+    }
+
+    function operator(op) {
+      if (expression && !/[+\−*/%]$/.test(expression)) {
+        expression += op;
+        updateDisplay();
+      }
+    }
+
+    function appendFunction(func) {
+      expression += func + '(';
+      updateDisplay();
+    }
+
+    function constant(c) {
+      if (c === 'pi') expression += 'π';
+      if (c === 'e') expression += 'e';
+      updateDisplay();
+    }
+
+    function decimal() {
+      const lastNum = expression.split(/[+\−*/%()]/g).pop();
+      if (!lastNum.includes('.')) {
+        expression += '.';
+        updateDisplay();
+      }
+    }
+
+    function clearDisplay() {
+      expression = '';
+      resultDiv.textContent = '0';
+      updateDisplay();
+    }
+
+    function backspace() {
+      expression = expression.slice(0, -1);
+      updateDisplay();
+    }
+
+    function memoryStore() {
+      if (expression) {
+        try {
+          memory = parseFloat(safeEval(expression));
+          updateMemInfo();
+        } catch (e) {}
+      }
+    }
+
+    function memoryRecall() {
+      expression = memory.toString();
+      updateDisplay();
+    }
+
+    function memoryClear() {
+      memory = 0;
+      updateMemInfo();
+    }
+
+    function memoryAdd() {
+      if (expression) {
+        try {
+          memory += parseFloat(safeEval(expression));
+          updateMemInfo();
+        } catch (e) {}
+      }
+    }
+
+    function memorySubtract() {
+      if (expression) {
+        try {
+          memory -= parseFloat(safeEval(expression));
+          updateMemInfo();
+        } catch (e) {}
+      }
+    }
+
+    function clearEntry() {
+      expression = expression.slice(0, -1);
+      updateDisplay();
+    }
+
+    function factorial(n) {
+      if (n < 0) return NaN;
+      if (n === 0 || n === 1) return 1;
+      let result = 1;
+      for (let i = 2; i <= n; i++) result *= i;
+      return result;
+    }
+
+    function safeEval(expr) {
+      expr = expr.replace(/sin\(/g, mode === 'deg' ? 'Math.sin(Math.PI/180*' : 'Math.sin(');
+      expr = expr.replace(/cos\(/g, mode === 'deg' ? 'Math.cos(Math.PI/180*' : 'Math.cos(');
+      expr = expr.replace(/tan\(/g, mode === 'deg' ? 'Math.tan(Math.PI/180*' : 'Math.tan(');
+      expr = expr.replace(/log\(/g, 'Math.log10(');
+      expr = expr.replace(/ln\(/g, 'Math.log(');
+      expr = expr.replace(/sqrt\(/g, 'Math.sqrt(');
+      expr = expr.replace(/pow\(/g, 'Math.pow(');
+      expr = expr.replace(/exp\(/g, 'Math.exp(');
+      expr = expr.replace(/fact\(/g, 'factorial(');
+      expr = expr.replace(/inv\(/g, '1/(');
+      expr = expr.replace(/π/g, 'Math.PI');
+      expr = expr.replace(/e(?![x^])/g, 'Math.E');
+      expr = expr.replace(/−/g, '-');
+
+      try {
+        return Function('"use strict"; return (' + expr + ')')();
+      } catch (e) {
+        throw new Error('Invalid expression');
+      }
+    }
+
+    function calculate() {
+      try {
+        let result = safeEval(expression);
+        if (isNaN(result) || !isFinite(result)) {
+          throw new Error('Invalid result');
+        }
+        result = Math.round(result * 1e10) / 1e10;
+        calculationHistory.unshift({ expr: expression, result: result });
+        if (calculationHistory.length > 10) calculationHistory.pop();
+        updateHistoryGrid();
+        resultDiv.textContent = result;
+        expression = result.toString();
+        updateDisplay();
+      } catch (e) {
+        resultDiv.textContent = 'Error';
+        expression = '';
+        updateDisplay();
+      }
+    }
+
+    // Keyboard support
+    document.addEventListener('keydown', function(event) {
+      const key = event.key;
+      if (key >= '0' && key <= '9') number(key);
+      else if (key === '.') decimal();
+      else if (['+', '-', '*', '/', '%'].includes(key)) operator(key);
+      else if (key === 'Enter' || key === '=') calculate();
+      else if (key === 'Backspace') backspace();
+      else if (key === 'Escape') clearDisplay();
+    });
+
+    updateDisplay();
+  </script>
+</body>
+</html>

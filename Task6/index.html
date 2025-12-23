@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LAB 6</title>
+</head>
+<body>
+    
+    <script >
+        // arithmetic operations
+        let a=10;
+        let b=15;
+        let sum=a+b;
+        document.write("The sum of "+a+" and "+b+" : "+sum);
+        let diff=a-b;
+        document.write("<br>The difference of "+a+" and "+b+" : "+diff);
+        let prod=a*b;
+        document.write("<br>The product of "+a+" and "+b+" : "+prod);
+        let quot=a/b;
+        document.write("<br>The quotient of "+a+" and "+b+" : "+quot);
+        let mod=a%b;
+        document.write("<br>The modulus of "+a+" and "+b+" : "+mod);
+
+        //boolean operations
+        if(a==b){
+            document.write("<br>"+a+" is equal to "+b);
+        } else {
+            document.write("<br>"+a+" is not equal to "+b);
+        }
+        if(a!=b){
+            document.write("<br>"+a+" is not equal to "+b);
+        }
+        if(a>=b){
+            document.write("<br>"+a+" is greater than or equal to "+b);
+        }
+        if(a<=b){
+            document.write("<br>"+a+" is less than or equal to "+b);
+        }
+
+        let isactive=true;
+        document.write("<br>isactive: "+isactive);
+        let isloggedin=false;
+        document.write("<br>isloggedin: "+isloggedin);
+        if(isactive && isloggedin){
+            document.write("<br>User is active and logged in");
+        } else {
+            document.write("<br>User is either not active or not logged in");
+        }
+
+        // function
+        function great()
+        {
+            document.write("<br>Hello, welcome to JavaScript functions!");
+        }
+        great();
+        //Function with parameters
+        function add(a,b){
+            let sum=a+b;
+            document.write("<br>The sum of "+a+" and "+b+" is: "+sum);
+        }
+        add(5,7);
+        function multiply(a,b){
+            return a*b;
+        }
+        let result=multiply(3,4)
+        document.write("<br>Product is :",result)
+
+        //Function Expressions(Another way to define a function)
+        const Ali=function()
+        {
+            document.write("<br>Hello Javascript");
+        }
+        Ali();
+
+        //Short way to write function(Arrow Functions)
+        const multiply=(x,y)=> x*y;
+        document.write(multiply(4,2));
+    </script>
+</body>
+</html>
