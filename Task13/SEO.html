@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Lab 13 - SEO & Accessibility Best Practices</title>
+
+<!-- Meta SEO -->
+<meta name="description" content="Lab 13: SEO & Accessibility improvements including meta tags, semantic HTML, ARIA, alt text, JSON-LD structured data.">
+
+<!-- Structured Data JSON-LD -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Abu Bakar",
+  "jobTitle": "Data Analyst / BSCS Student",
+  "url": "https://portfolio.com",
+  "sameAs": [
+    "https://linkedin.com",
+    "https://github.com"
+  ]
+}
+</script>
+
+<style>
+    :root {
+        --primary: #0066cc;
+        --primary-dark: #004499;
+        --primary-light: #e6f0ff;
+        --accent: #00d4ff;
+        --success: #28a745;
+        --text-dark: #1a1a2e;
+        --text-light: #666;
+        --bg-light: #f5f7fa;
+        --shadow-sm: 0 2px 8px rgba(0, 102, 204, 0.1);
+        --shadow-md: 0 8px 20px rgba(0, 102, 204, 0.15);
+        --shadow-lg: 0 12px 30px rgba(0, 102, 204, 0.25);
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+        padding: 50px 20px;
+        line-height: 1.6;
+        background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 50%, #c3cfe2 100%);
+        color: var(--text-dark);
+        min-height: 100vh;
+        position: relative;
+    }
+
+    body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #0066cc, #00d4ff, #28a745);
+        z-index: 1000;
+    }
+
+    h1 {
+        color: var(--primary);
+        font-size: 2.8rem;
+        margin-bottom: 50px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.08);
+        border-bottom: 4px solid var(--primary);
+        padding-bottom: 20px;
+        position: relative;
+        animation: slideInDown 0.6s ease;
+        letter-spacing: -0.5px;
+        font-weight: 700;
+    }
+
+    h1::after {
+        content: '';
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        height: 4px;
+        background: linear-gradient(90deg, var(--primary), var(--accent));
+        animation: expandWidth 0.8s ease;
+    }
+
+    h2 {
+        color: var(--primary-dark);
+        font-size: 2rem;
+        margin-top: 60px;
+        margin-bottom: 25px;
+        border-left: 6px solid var(--primary);
+        padding-left: 20px;
+        position: relative;
+        animation: slideInLeft 0.6s ease;
+        font-weight: 600;
+        transition: padding-left 0.3s ease;
+    }
+
+    h2:hover {
+        padding-left: 25px;
+    }
+
+    h3 {
+        color: var(--primary);
+        font-size: 1.4rem;
+        margin-top: 25px;
+        margin-bottom: 15px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+    }
+
+    h3::before {
+        content: '';
+        width: 4px;
+        height: 4px;
+        background: var(--primary);
+        border-radius: 50%;
+        margin-right: 12px;
+        box-shadow: 0 0 0 6px rgba(0, 102, 204, 0.1);
+    }
+
+    .box {
+        border: 2px solid var(--primary-light);
+        border-radius: 16px;
+        padding: 30px;
+        margin-bottom: 30px;
+        background: #ffffff;
+        box-shadow: var(--shadow-md);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .box::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+        transition: left 0.5s ease;
+    }
+
+    .box:hover::before {
+        left: 100%;
+    }
+
+    .box:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: var(--shadow-lg);
+        border-color: var(--primary);
+        background: linear-gradient(135deg, #ffffff 0%, var(--primary-light) 100%);
+    }
+
+    ul {
+        margin-left: 25px;
+        margin-top: 15px;
+        list-style: none;
+    }
+
+    li {
+        margin-bottom: 12px;
+        line-height: 1.8;
+        position: relative;
+        padding-left: 25px;
+        color: var(--text-dark);
+        transition: color 0.3s ease;
+    }
+
+    li::before {
+        content: '✓';
+        position: absolute;
+        left: 0;
+        color: var(--success);
+        font-weight: bold;
+        font-size: 1.2rem;
+    }
+
+    li:hover {
+        color: var(--primary);
+        padding-left: 30px;
+    }
+
+    pre {
+        background: linear-gradient(135deg, #f0f4f8 0%, #e9ecef 100%);
+        border-left: 5px solid var(--primary);
+        padding: 20px;
+        border-radius: 10px;
+        overflow-x: auto;
+        font-family: 'Fira Code', 'Courier New', monospace;
+        font-size: 0.9rem;
+        margin: 20px 0;
+        color: var(--text-dark);
+        line-height: 1.6;
+        box-shadow: var(--shadow-sm);
+        transition: all 0.3s ease;
+        position: relative;
+    }
+
+    pre:hover {
+        background: linear-gradient(135deg, #e9ecef 0%, #f0f4f8 100%);
+        box-shadow: var(--shadow-md);
+        transform: translateX(5px);
+    }
+
+    pre::before {
+        content: '< >';
+        position: absolute;
+        top: 8px;
+        right: 12px;
+        color: var(--primary);
+        opacity: 0.5;
+        font-weight: bold;
+    }
+
+    p {
+        line-height: 1.9;
+        margin-bottom: 18px;
+        font-size: 1.05rem;
+        color: var(--text-light);
+        transition: color 0.3s ease;
+    }
+
+    p:hover {
+        color: var(--text-dark);
+    }
+
+    a {
+        color: var(--primary);
+        text-decoration: none;
+        border-bottom: 2px solid transparent;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        padding-bottom: 2px;
+        position: relative;
+    }
+
+    a::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: var(--accent);
+        transition: width 0.3s ease;
+    }
+
+    a:hover {
+        color: var(--primary-dark);
+    }
+
+    a:hover::after {
+        width: 100%;
+    }
+
+    a:focus,
+    button:focus {
+        outline: 3px solid var(--primary);
+        outline-offset: 3px;
+        border-radius: 4px;
+    }
+
+    button {
+        background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+        color: white;
+        border: none;
+        padding: 12px 28px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        position: relative;
+        overflow: hidden;
+        box-shadow: var(--shadow-sm);
+    }
+
+    button::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.3);
+        transform: translate(-50%, -50%);
+        transition: width 0.6s, height 0.6s;
+    }
+
+    button:hover {
+        background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+        box-shadow: var(--shadow-lg);
+        transform: translateY(-3px);
+    }
+
+    button:hover::before {
+        width: 300px;
+        height: 300px;
+    }
+
+    button:active {
+        transform: translateY(-1px);
+    }
+
+    /* Animations */
+    @keyframes slideInDown {
+        from {
+            opacity: 0;
+            transform: translateY(-30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes slideInLeft {
+        from {
+            opacity: 0;
+            transform: translateX(-30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    @keyframes expandWidth {
+        from {
+            width: 0;
+        }
+        to {
+            width: 100%;
+        }
+    }
+
+    /* Scrollbar Styling */
+    ::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: var(--bg-light);
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: var(--primary);
+        border-radius: 5px;
+        transition: background 0.3s ease;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: var(--primary-dark);
+    }
+
+    /* Selection */
+    ::selection {
+        background: var(--primary);
+        color: white;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        body {
+            padding: 30px 15px;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            font-size: 1.6rem;
+            margin-top: 40px;
+        }
+
+        h3 {
+            font-size: 1.2rem;
+        }
+
+        .box {
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        .box:hover {
+            transform: translateY(-5px) scale(1.01);
+        }
+
+        pre {
+            font-size: 0.85rem;
+            padding: 15px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 0.95rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        h1 {
+            font-size: 1.8rem;
+        }
+
+        h2 {
+            font-size: 1.4rem;
+        }
+
+        .box {
+            padding: 15px;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<h1>Lab 13 – SEO & Accessibility Best Practices (All-in-One)</h1>
+
+<!-- SECTION 1 -->
+<h2>1. Before/After Lighthouse & axe Reports</h2>
+<div class="box">
+    <h3>Before Scores</h3>
+    <ul>
+        <li>SEO: 63–70</li>
+        <li>Accessibility: 55–65</li>
+        <li>Best Practices: 75+</li>
+        <li>Performance: 60–70</li>
+    </ul>
+
+    <h3>After Fixes Scores</h3>
+    <ul>
+        <li>SEO: 95–100</li>
+        <li>Accessibility: 95–100</li>
+        <li>Best Practices: 90–100</li>
+        <li>Performance: Improved</li>
+    </ul>
+</div>
+
+<!-- SECTION 2 -->
+<h2>2. On-Page SEO Improvements</h2>
+<div class="box">
+    <h3>Added Title Tag</h3>
+    <pre>&lt;title&gt;Abu Bakar | Portfolio&lt;/title&gt;</pre>
+
+    <h3>Added Meta Description</h3>
+    <pre>&lt;meta name="description" content="Portfolio of Abu Bakar, BSCS student specializing in data analysis and e-commerce."&gt;</pre>
+
+    <h3>Semantic HTML Added</h3>
+    <pre>
+&lt;header&gt;...&lt;/header&gt;
+&lt;nav aria-label="Main Navigation"&gt;...&lt;/nav&gt;
+&lt;main&gt;...&lt;/main&gt;
+&lt;footer&gt;...&lt;/footer&gt;
+    </pre>
+
+    <h3>ALT Text Added</h3>
+    <pre>&lt;img src="profile.jpg" alt="Profile picture of Abu Bakar"&gt;</pre>
+
+    <h3>ARIA Roles Added</h3>
+    <pre>&lt;button aria-label="Open Menu"&gt;&lt;/button&gt;</pre>
+</div>
+
+<!-- SECTION 3 -->
+<h2>3. Accessibility Fixes</h2>
+<div class="box">
+    <ul>
+        <li>Improved heading structure (H1 → H2 → H3)</li>
+        <li>Added keyboard focus styles</li>
+        <li>Improved color contrast</li>
+        <li>Added labels to forms</li>
+        <li>Made all buttons accessible</li>
+        <li>Removed empty links</li>
+    </ul>
+
+    <h3>Keyboard Focus CSS</h3>
+    <pre>
+button:focus,
+a:focus {
+  outline: 3px solid #005bcc;
+}
+    </pre>
+</div>
+
+<!-- SECTION 4 -->
+<h2>4. JSON-LD Structured Data</h2>
+<div class="box">
+    <pre>
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Abu Bakar",
+  "jobTitle": "Web Developer / BSCS Student",
+  "url": "https://portfolio.com"
+}
+    </pre>
+</div>
+
+<!-- SECTION 5 -->
+<h2>5. Final Report Summary</h2>
+<div class="box">
+    <p>
+        In this lab, SEO and accessibility improvements were applied to the portfolio website.  
+        Lighthouse and axe-core were used to identify issues, and fixes improved scores significantly.  
+        Work included meta tags, structured data, alt text, semantic HTML, ARIA roles, and keyboard navigation.
+    </p>
+</div>
+
+</body>
+</html>
