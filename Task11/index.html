@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Advanced Canvas Drawing App</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Header -->
+  <header id="app-header">
+    <div class="header-left">
+      <!-- Logo -->
+      <div id="logo">
+        <!-- simple svg logo, color follows CSS variables -->
+        <svg id="appLogo" width="36" height="36" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4 12a8 8 0 1116 0 1 1 0 01-2 0 6 6 0 10-12 0 1 1 0 01-2 0z" fill="var(--logo-fill)" />
+          <circle cx="12" cy="12" r="3" fill="var(--logo-accent)" />
+        </svg>
+      </div>
+      <div>
+        <h1>Artistry</h1>
+        <p>Fast • Smooth • Beautiful Drawing</p>
+      </div>
+    </div>
+
+    <div id="header-right">
+      <small>Tip: Use touch or mouse — press and drag.</small>
+
+      <!-- Theme toggle -->
+      <label class="theme-toggle" title="Toggle light/dark" aria-label="Toggle theme">
+        <input type="checkbox" id="themeToggle" role="switch" aria-checked="false" />
+        <span class="toggle-icons" aria-hidden="true">☀️<span class="moon">🌙</span></span>
+      </label>
+    </div>
+  </header>
+
+  <div id="toolbar">
+    <h2>🖌 Drawing Tools</h2>
+
+    <div class="toolbar-section">
+      <label for="colorPicker">Brush Color</label>
+      <input type="color" id="colorPicker" value="#000000" />
+      <div class="palette" id="palette">
+        <!-- Predefined colors -->
+        <div class="color-swatch" style="background:#000000;" data-color="#000000" title="#000000"></div>
+        <div class="color-swatch" style="background:#e84118;" data-color="#e84118" title="#e84118"></div>
+        <div class="color-swatch" style="background:#f39c12;" data-color="#f39c12" title="#f39c12"></div>
+        <div class="color-swatch" style="background:#2ecc71;" data-color="#2ecc71" title="#2ecc71"></div>
+        <div class="color-swatch" style="background:#3498db;" data-color="#3498db" title="#3498db"></div>
+        <div class="color-swatch" style="background:#9b59b6;" data-color="#9b59b6" title="#9b59b6"></div>
+      </div>
+    </div>
+
+    <div class="toolbar-section">
+      <label for="brushSize">Brush Size</label>
+      <input type="range" id="brushSize" min="1" max="60" value="5" />
+      <label for="brushType">Brush Type</label>
+      <select id="brushType">
+        <option value="round">Round</option>
+        <option value="square">Square</option>
+      </select>
+
+      <label for="brushOpacity">Opacity</label>
+      <input type="range" id="brushOpacity" min="0.05" max="1" step="0.05" value="1" />
+    </div>
+
+    <div class="toolbar-section tools-row">
+      <div class="preview-group">
+        <label>Preview</label>
+        <div id="previewBubble" aria-hidden="true">
+          <div class="preview-dot"></div>
+        </div>
+      </div>
+
+      <div class="tool-actions">
+        <div class="left-controls">
+          <label class="toggle-label">
+            <input type="checkbox" id="eraserToggle" />
+            Eraser
+          </label>
+        </div>
+
+        <div class="right-controls">
+          <button id="clearBtn" title="Clear Canvas" aria-label="Clear canvas">Clear</button>
+          <button id="saveBtn" title="Save as Image" aria-label="Save drawing">Save</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div id="canvas-container">
+    <canvas id="drawCanvas" width="900" height="600"></canvas>
+  </div>
+
+  <div id="svg-section">
+    <svg width="400" height="120">
+      <circle id="ball" cx="20" cy="60" r="15" fill="#e84118" />
+
+      <animate 
+        xlink:href="#ball"
+        attributeName="cx"
+        from="20"
+        to="380"
+        dur="2s"
+        repeatCount="indefinite"
+        fill="freeze"
+      />
+    </svg>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
