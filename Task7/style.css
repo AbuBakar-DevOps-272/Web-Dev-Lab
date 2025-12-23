@@ -1,0 +1,15 @@
+.main-container {
+    display: flex; /* Activates Flexbox on this container */
+    width: 100%; 
+    max-width: 1200px; /* Optional: Sets a max width for desktop screens */
+    margin: 0 auto; /* Centers the container */
+}
+.content {
+    flex: 3; /* Content takes 3 parts of the available space */
+    padding: 20px;
+}
+.sidebar {
+    flex: 1; /* Sidebar takes 1 part of the available space (3:1 ratio) */
+    padding: 20px;
+    background-color: #f4f4f4;
+}
